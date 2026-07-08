@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../utils/api";
+import { useWallet } from "../context/WalletContext";
 import toast from "react-hot-toast";
 
 export default function IssueCertificate() {
   const navigate = useNavigate();
+  const { walletAddress, isConnected, connectWallet } = useWallet();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [form, setForm] = useState({
@@ -15,6 +17,13 @@ export default function IssueCertificate() {
     issuingOrg: "",
   });
 
+  // Auto-fill wallet when MetaMask is connected
+  useEffect(() => {
+    if (walletAddress) {
+      setForm((prev) => ({ ...prev, learnerWallet: walletAddress }));
+    }
+  }, [walletAddress]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -24,6 +33,7 @@ export default function IssueCertificate() {
       toast.success("Certificate issued successfully!");
     } catch (error) {
       toast.error(error.response?.data?.error || "Failed to issue certificate");
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -39,9 +49,7 @@ export default function IssueCertificate() {
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Certificate Issued!
           </h2>
-          <p className="text-gray-500 mb-6">
-            The certificate has been minted on the blockchain
-          </p>
+          <p className="text-gray-500 mb-6">Minted as NFT on the blockchain</p>
 
           <div className="bg-gray-50 rounded-xl p-4 text-left space-y-3 mb-6">
             <div className="flex justify-between">
@@ -73,11 +81,16 @@ export default function IssueCertificate() {
           </div>
 
           <div className="flex gap-3">
-            <a>
+            <a
               href={result.ipfsUrl}
-              target="_blank" rel="noopener noreferrer" className="flex-1
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1
               bg-indigo-600 text-white py-2.5 rounded-lg font-medium
-              hover:bg-indigo-700 transition text-center" View Certificate PDF
+              hover:bg-indigo-700 transition text-center"
+            >
+              {" "}
+              View Certificate PDF
             </a>
             <button
               onClick={() => setResult(null)}
@@ -99,6 +112,35 @@ export default function IssueCertificate() {
           Issue a blockchain-verified certificate to a learner
         </p>
       </div>
+
+      {/* MetaMask connection status */}
+      {!isConnected ? (
+        <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-4 flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-orange-800">
+              🦊 Connect MetaMask
+            </p>
+            <p className="text-xs text-orange-600 mt-1">
+              Connect your wallet to auto-fill the learner wallet address
+            </p>
+          </div>
+          <button
+            onClick={connectWallet}
+            className="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition"
+          >
+            Connect
+          </button>
+        </div>
+      ) : (
+        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-4">
+          <p className="text-sm font-medium text-green-800">
+            ✅ Wallet Connected
+          </p>
+          <p className="text-xs font-mono text-green-600 mt-1">
+            {walletAddress}
+          </p>
+        </div>
+      )}
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -138,6 +180,11 @@ export default function IssueCertificate() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Learner Wallet Address
+              {isConnected && (
+                <span className="ml-2 text-xs text-green-600">
+                  ✅ Auto-filled from MetaMask
+                </span>
+              )}
             </label>
             <input
               type="text"
