@@ -2,7 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+* {
   font-family: 'Inter', sans-serif;
-  background-color: #f8fafc;
 }
+
+body {
+  background: #0a0a0f;
+  color: #ffffff;
+}
+
+/* Blockchain grid background */
+.blockchain-bg {
+  background-color: #0a0a0f;
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Glow effects */
+.glow-purple {
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+}
+.glow-blue {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+}
+.glow-green {
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+}
+
+/* Glass card */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated gradient border */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(#0a0a0f, #0a0a0f) padding-box,
+              linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4) border-box;
+  border: 1px solid transparent;
+}
+
+/* Pulse animation */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Scroll bar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 3px; }

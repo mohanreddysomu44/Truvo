@@ -1,156 +1,24 @@
-// import { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
-// import API from "../utils/api";
-
-// export default function VerifyCertificate() {
-//   const { tokenId: paramTokenId } = useParams();
-//   const [tokenId, setTokenId] = useState(paramTokenId || "");
-//   const [result, setResult] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState("");
-
-//   useEffect(() => {
-//     if (paramTokenId) handleVerify(paramTokenId);
-//   }, [paramTokenId]);
-
-//   const handleVerify = async (id) => {
-//     setLoading(true);
-//     setError("");
-//     setResult(null);
-//     try {
-//       const { data } = await API.get(`/certificate/verify/${id || tokenId}`);
-//       setResult(data);
-//     } catch (err) {
-//       setError("Certificate not found or invalid token ID");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center p-4">
-//       <div className="w-full max-w-lg">
-//         {/* Header */}
-//         <div className="text-center mb-8">
-//           <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-//             <span className="text-white font-bold text-2xl">T</span>
-//           </div>
-//           <h1 className="text-2xl font-bold text-gray-900">
-//             Verify Certificate
-//           </h1>
-//           <p className="text-gray-500 mt-1">
-//             Enter a certificate token ID to verify it on the blockchain
-//           </p>
-//         </div>
-
-//         {/* Search box */}
-//         <div className="bg-white rounded-2xl shadow-sm p-6 mb-4">
-//           <div className="flex gap-3">
-//             <input
-//               type="number"
-//               value={tokenId}
-//               onChange={(e) => setTokenId(e.target.value)}
-//               className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-//               placeholder="Enter Token ID (e.g. 1)"
-//             />
-//             <button
-//               onClick={() => handleVerify()}
-//               disabled={loading || !tokenId}
-//               className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:opacity-50"
-//             >
-//               {loading ? "Checking..." : "Verify"}
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Error */}
-//         {error && (
-//           <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
-//             ❌ {error}
-//           </div>
-//         )}
-
-//         {/* Result */}
-//         {result && (
-//           <div
-//             className={`bg-white rounded-2xl shadow-sm p-6 border-2 ${result.valid ? "border-green-500" : "border-red-500"}`}
-//           >
-//             {/* Status badge */}
-//             <div
-//               className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-4 ${result.valid ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
-//             >
-//               {result.valid ? "✅ VALID CERTIFICATE" : "❌ REVOKED CERTIFICATE"}
-//             </div>
-//             {/* Certificate details */}
-//             <div className="space-y-3">
-//               <div className="flex justify-between py-2 border-b border-gray-100">
-//                 <span className="text-sm text-gray-500">Token ID</span>
-//                 <span className="text-sm font-bold text-indigo-600">
-//                   #{result.certificate.tokenId}
-//                 </span>
-//               </div>
-//               <div className="flex justify-between py-2 border-b border-gray-100">
-//                 <span className="text-sm text-gray-500">Learner</span>
-//                 <span className="text-sm font-medium">
-//                   {result.certificate.learnerName}
-//                 </span>
-//               </div>
-//               <div className="flex justify-between py-2 border-b border-gray-100">
-//                 <span className="text-sm text-gray-500">Skill</span>
-//                 <span className="text-sm font-medium">
-//                   {result.certificate.skillName}
-//                 </span>
-//               </div>
-//               <div className="flex justify-between py-2 border-b border-gray-100">
-//                 <span className="text-sm text-gray-500">Issued By</span>
-//                 <span className="text-sm font-medium">
-//                   {result.certificate.issuingOrg}
-//                 </span>
-//               </div>
-//               <div className="flex justify-between py-2 border-b border-gray-100">
-//                 <span className="text-sm text-gray-500">Issued At</span>
-//                 <span className="text-sm font-medium">
-//                   {new Date(result.certificate.issuedAt).toLocaleDateString(
-//                     "en-IN",
-//                   )}
-//                 </span>
-//               </div>
-//               <div className="flex justify-between py-2 border-b border-gray-100">
-//                 <span className="text-sm text-gray-500">Owner Wallet</span>
-//                 <span className="text-xs font-mono text-gray-600">
-//                   {result.certificate.owner?.slice(0, 20)}...
-//                 </span>
-//               </div>
-//             </div>
-//             {/* View PDF button */}
-//             href={result.certificate.ipfsUrl}
-//             target="_blank" rel="noopener noreferrer" className="mt-4 block
-//             w-full bg-indigo-600 text-white py-2.5 rounded-lg font-medium
-//             hover:bg-indigo-700 transition text-center"
-//             <a>View Certificate PDF on IPFS</a>
-//             {/* Blockchain proof */}
-//             <p className="text-xs text-gray-400 text-center mt-3">
-//               🔗 Verified on Polygon blockchain — tamper-proof
-//             </p>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import API from '../utils/api';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import API from "../utils/api";
+import BlockchainBackground from "../components/BlockchainBackground";
+import {
+  Shield,
+  Search,
+  ExternalLink,
+  Copy,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
 
 export default function VerifyCertificate() {
   const { tokenId: paramTokenId } = useParams();
-  const [tokenId, setTokenId] = useState(paramTokenId || '');
+  const [tokenId, setTokenId] = useState(paramTokenId || "");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [verifying, setVerifying] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (paramTokenId) handleVerify(paramTokenId);
@@ -158,13 +26,13 @@ export default function VerifyCertificate() {
 
   const handleVerify = async (id) => {
     setLoading(true);
-    setError('');
+    setError("");
     setResult(null);
     try {
       const { data } = await API.get(`/certificate/verify/${id || tokenId}`);
       setResult(data);
     } catch (err) {
-      setError('Certificate not found or invalid token ID');
+      setError("Certificate not found or invalid token ID");
     } finally {
       setLoading(false);
     }
@@ -175,211 +43,243 @@ export default function VerifyCertificate() {
     try {
       const response = await fetch(result.certificate.ipfsUrl);
       const buffer = await response.arrayBuffer();
-
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
+      const hashHex = hashArray
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
       alert(
-        `✅ Certificate Authenticity Verified!\n\n` +
-        `IPFS CID on Blockchain:\n${result.certificate.ipfsCid}\n\n` +
-        `SHA-256 of downloaded PDF:\n${hashHex.slice(0, 32)}...\n\n` +
-        `This PDF is exactly what was stored when the certificate was issued.\n` +
-        `It has NOT been tampered with.`
+        `✅ Authenticity Verified!\n\n` +
+          `IPFS CID on Blockchain:\n${result.certificate.ipfsCid}\n\n` +
+          `SHA-256:\n${hashHex.slice(0, 32)}...\n\n` +
+          `This PDF has NOT been tampered with.`,
       );
     } catch (err) {
-      alert('Could not verify — IPFS gateway may be slow. Try again in a moment.');
+      alert("Could not verify — IPFS gateway may be slow. Try again.");
     } finally {
       setVerifying(false);
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-lg">
+  const copyLink = () => {
+    navigator.clipboard.writeText(
+      `${window.location.origin}/verify/${result.certificate.tokenId}`,
+    );
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative">
+  <BlockchainBackground className="opacity-10" />
+
+      <div className="w-full max-w-lg relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-2xl">T</span>
+          <div
+            className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 pulse-glow"
+            style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)" }}
+          >
+            <Shield size={36} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Verify Certificate</h1>
-          <p className="text-gray-500 mt-1">
-            Enter a certificate token ID to verify it on the blockchain
+          <h1 className="text-2xl font-bold gradient-text">
+            Verify Certificate
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            Instant blockchain verification — no login required
           </p>
         </div>
 
-        {/* Search box */}
-        <div className="bg-white rounded-2xl shadow-sm p-6 mb-4">
+        {/* Search */}
+        <div className="bg-white rounded-2xl p-6 mb-4 border border-gray-200 shadow-lg">
           <div className="flex gap-3">
             <input
               type="number"
               value={tokenId}
               onChange={(e) => setTokenId(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleVerify()}
-              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="Enter Token ID (e.g. 1)"
+              onKeyDown={(e) => e.key === "Enter" && handleVerify()}
+              className="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-blue-500 transition"
+              placeholder="Enter Certificate Token ID (e.g. 1)"
             />
             <button
               onClick={() => handleVerify()}
               disabled={loading || !tokenId}
-              className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:opacity-50"
+              className="px-6 py-3 rounded-xl font-semibold text-white flex items-center gap-2 text-sm disabled:opacity-50 transition hover:opacity-90"
+              style={{
+                background: "linear-gradient(135deg, #3b82f6, #2563eb)",
+              }}
             >
-              {loading ? 'Checking...' : 'Verify'}
+              <Search size={16} />
+              {loading ? "Checking..." : "Verify"}
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-2">
-            This verification reads directly from the blockchain — no login required
+   <p className="text-xs text-gray-500 mt-2 text-center">
+            Data sourced directly from Polygon blockchain
           </p>
         </div>
 
         {/* Error */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm mb-4">
-            ❌ {error}
+         <div className="bg-red-50 rounded-2xl p-4 mb-4 border border-red-200 shadow">
+            <div className="flex items-center gap-2 text-red-400">
+              <XCircle size={16} />
+              <span className="text-sm">{error}</span>
+            </div>
           </div>
         )}
 
         {/* Result */}
         {result && (
-          <div className={`bg-white rounded-2xl shadow-sm p-6 border-2 ${
-            result.valid ? 'border-green-500' : 'border-red-500'
-          }`}>
-
+          <div
+            className={`glass-dark rounded-2xl p-6 border-2 ${
+              result.valid ? "border-green-500/40" : "border-red-500/40"
+            }`}
+          >
             {/* Status badge */}
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-6 ${
-              result.valid
-                ? 'bg-green-100 text-green-700'
-                : 'bg-red-100 text-red-700'
-            }`}>
-              {result.valid ? '✅ VALID CERTIFICATE' : '❌ REVOKED CERTIFICATE'}
+            <div
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-6 ${
+                result.valid
+                  ? "bg-green-500/20 text-green-300 border border-green-500/30"
+                  : "bg-red-500/20 text-red-300 border border-red-500/30"
+              }`}
+              style={{
+                boxShadow: result.valid
+                  ? "0 0 20px rgba(16,185,129,0.2)"
+                  : "0 0 20px rgba(239,68,68,0.2)",
+              }}
+            >
+              {result.valid ? (
+                <>
+                  <CheckCircle size={16} /> VALID CERTIFICATE
+                </>
+              ) : (
+                <>
+                  <XCircle size={16} /> REVOKED CERTIFICATE
+                </>
+              )}
             </div>
 
             {/* Certificate details */}
             <div className="space-y-3 mb-6">
-              <div className="flex justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-500">Token ID</span>
-                <span className="text-sm font-bold text-indigo-600">
-                  #{result.certificate.tokenId}
-                </span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-500">Learner Name</span>
-                <span className="text-sm font-medium">
-                  {result.certificate.learnerName}
-                </span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-500">Skill / Course</span>
-                <span className="text-sm font-medium">
-                  {result.certificate.skillName}
-                </span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-500">Issued By</span>
-                <span className="text-sm font-medium">
-                  {result.certificate.issuingOrg}
-                </span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-500">Issue Date</span>
-                <span className="text-sm font-medium">
-                  {new Date(result.certificate.issuedAt).toLocaleDateString('en-IN')}
-                </span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-500">Owner Wallet</span>
-                <span className="text-xs font-mono text-gray-600">
-                  {result.certificate.owner?.slice(0, 10)}...{result.certificate.owner?.slice(-6)}
-                </span>
-              </div>
-              <div className="flex justify-between py-2 border-b border-gray-100">
-                <span className="text-sm text-gray-500">IPFS CID</span>
-                <span className="text-xs font-mono text-gray-600">
-                  {result.certificate.ipfsCid?.slice(0, 10)}...{result.certificate.ipfsCid?.slice(-6)}
-                </span>
-              </div>
-              <div className="flex justify-between py-2">
-                <span className="text-sm text-gray-500">Status</span>
-                <span className={`text-sm font-bold ${
-                  result.valid ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {result.valid ? 'Active & Valid' : 'Revoked'}
-                </span>
-              </div>
+              {[
+                {
+                  label: "Token ID",
+                  value: `#${result.certificate.tokenId}`,
+                  highlight: true,
+                },
+                {
+                  label: "Learner Name",
+                  value: result.certificate.learnerName,
+                },
+                {
+                  label: "Skill / Course",
+                  value: result.certificate.skillName,
+                },
+                { label: "Issued By", value: result.certificate.issuingOrg },
+                {
+                  label: "Issue Date",
+                  value: new Date(
+                    result.certificate.issuedAt,
+                  ).toLocaleDateString("en-IN"),
+                },
+                {
+                  label: "Owner Wallet",
+                  value: `${result.certificate.owner?.slice(0, 10)}...${result.certificate.owner?.slice(-6)}`,
+                  mono: true,
+                },
+                {
+                  label: "IPFS CID",
+                  value: `${result.certificate.ipfsCid?.slice(0, 12)}...${result.certificate.ipfsCid?.slice(-6)}`,
+                  mono: true,
+                },
+              ].map(({ label, value, highlight, mono }) => (
+                <div
+                  key={label}
+                 className="flex justify-between items-center py-2 border-b border-gray-200"
+                >
+                 <span className="text-gray-500 text-xs">{label}</span>
+                  <span
+                    className={`text-xs font-medium ${
+                     highlight ? "text-indigo-600 font-bold" : "text-gray-800"
+                    } ${mono ? "font-mono" : ""}`}
+                  >
+                    {value}
+                  </span>
+                </div>
+              ))}
             </div>
 
             {/* Action buttons */}
-           <div className="space-y-2">
-  {/* View PDF */}
-  <a
-    href={result.certificate.ipfsUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="block w-full bg-indigo-600 text-white py-2.5 rounded-lg font-medium hover:bg-indigo-700 transition text-center"
-  >
-    📄 View Certificate PDF on IPFS
-  </a>
+            <div className="space-y-2">
+              <a
+                href={result.certificate.ipfsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-white text-sm transition hover:opacity-90"
+                style={{
+                  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                }}
+              >
+                <ExternalLink size={16} />
+                View Certificate PDF on IPFS
+              </a>
 
-  {/* Download and verify hash */}
-  <button
-    onClick={handleDownloadVerify}
-    disabled={verifying}
-    className="w-full bg-green-600 text-white py-2.5 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50"
-  >
-    {verifying ? "🔄 Verifying..." : "🔍 Download & Verify Authenticity"}
-  </button>
-
-  {/* Copy verify link */}
-  <button
-    onClick={() => {
-      navigator.clipboard.writeText(
-        `${window.location.origin}/verify/${result.certificate.tokenId}`
-      );
-      alert("Verification link copied to clipboard!");
-    }}
-    className="w-full bg-gray-100 text-gray-700 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition"
-  >
-    🔗 Copy Verification Link
-  </button>
-</div>
-            {/* Blockchain proof footer */}
-            <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-              <p className="text-xs text-gray-400 text-center">
-                🔗 Data sourced directly from blockchain — tamper-proof & permanent
-              </p>
-              <p className="text-xs text-gray-400 text-center mt-1">
-                Even if Truvo closes, this certificate remains verifiable forever
-              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={handleDownloadVerify}
+                  disabled={verifying}
+                  className="py-2.5 rounded-xl text-sm font-medium text-green-300 glass border border-green-500/20 hover:bg-green-500/10 transition disabled:opacity-50"
+                >
+                  {verifying ? "🔄 Verifying..." : "🔍 Verify Hash"}
+                </button>
+                <button
+                  onClick={copyLink}
+                  className="py-2.5 rounded-xl text-sm font-medium text-white/60 glass border border-white/10 hover:bg-white/10 transition flex items-center justify-center gap-2"
+                >
+                  {copied ? (
+                    <>
+                      <CheckCircle size={14} className="text-green-400" />{" "}
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={14} /> Copy Link
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
+
+           <p className="text-xs text-gray-500 text-center mt-4">
+              🔗 Permanently recorded on Polygon blockchain — tamper-proof
+              forever
+            </p>
           </div>
         )}
 
         {/* How it works */}
         {!result && !error && (
-          <div className="bg-white rounded-2xl shadow-sm p-6 mt-4">
-            <h3 className="font-bold text-gray-900 mb-3">How verification works</h3>
+          <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-lg">
+            <h3 className="font-bold text-gray-800 text-sm mb-3">
+              How verification works
+            </h3>
             <div className="space-y-2">
-              <div className="flex gap-3 items-start">
-                <span className="text-indigo-600 font-bold">1.</span>
-                <p className="text-sm text-gray-600">Enter the certificate token ID</p>
-              </div>
-              <div className="flex gap-3 items-start">
-                <span className="text-indigo-600 font-bold">2.</span>
-                <p className="text-sm text-gray-600">We read the record directly from the blockchain</p>
-              </div>
-              <div className="flex gap-3 items-start">
-                <span className="text-indigo-600 font-bold">3.</span>
-                <p className="text-sm text-gray-600">The IPFS CID on-chain matches the PDF — proving it was not tampered</p>
-              </div>
-              <div className="flex gap-3 items-start">
-                <span className="text-indigo-600 font-bold">4.</span>
-                <p className="text-sm text-gray-600">Click "Download & Verify" to confirm the PDF hash matches the CID</p>
-              </div>
+              {[
+                "Enter the certificate token ID",
+                "We read the record directly from the blockchain",
+                "IPFS CID on-chain matches the PDF — proving no tampering",
+                'Click "Verify Hash" to cryptographically confirm authenticity',
+              ].map((step, i) => (
+                <div key={i} className="flex gap-3 items-start">
+                  <span className="text-indigo-400 font-bold text-xs mt-0.5">
+                    {i + 1}.
+                  </span>
+                  <p className="text-gray-600 text-xs">{step}</p>
+                </div>
+              ))}
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
