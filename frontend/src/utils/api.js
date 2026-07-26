@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
 const API = axios.create({
-  baseURL: 'http://localhost:4000/api',
+  baseURL: "https://truvo-production.up.railway.app/api",
 });
 
 // Automatically add JWT token to every request
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem('truvo_token');
+  const token = localStorage.getItem("truvo_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
