@@ -47,9 +47,6 @@ const app = express();
 // ── Security headers ────────────────────────────────────
 app.use(helmet());
 
-// ── CORS ────────────────────────────────────────────────
-import cors from "cors";
-
 app.use(
   cors({
     origin: [
