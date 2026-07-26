@@ -61,8 +61,7 @@ app.use(
   }),
 );
 
-// Explicitly handle OPTIONS requests
-app.options("*", cors());
+
 
 // ── Body parser ─────────────────────────────────────────
 app.use(express.json({ limit: "10mb" }));
