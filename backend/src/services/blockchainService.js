@@ -88,10 +88,12 @@ const contractJSON = JSON.parse(
   readFileSync(join(__dirname, "../../shared/TruvoCertificate.json"), "utf8"),
 );
 
-const addressJSON = JSON.parse(
-  readFileSync(join(__dirname, "../../shared/contractAddress.json"), "utf8"),
+// const addressJSON = JSON.parse(
+//   readFileSync(join(__dirname, "../../shared/contractAddress.json"), "utf8"),
+// );
+const provider = new ethers.JsonRpcProvider(
+  process.env.BLOCKCHAIN_RPC || "http://host.docker.internal:8545",
 );
-const provider = new ethers.JsonRpcProvider("http://host.docker.internal:8545");
 
 const wallet = new ethers.Wallet(
   process.env.ISSUER_PRIVATE_KEY ||
@@ -100,7 +102,8 @@ const wallet = new ethers.Wallet(
 );
 
 const contract = new ethers.Contract(
-  addressJSON.localhost,
+  // addressJSON.localhost,
+  process.env.CONTRACT_ADDRESS,
   contractJSON.abi,
   wallet,
 );

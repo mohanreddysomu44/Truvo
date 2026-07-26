@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useWallet } from '../context/WalletContext';
-import { Shield, LogOut, Wallet, ChevronDown } from 'lucide-react';
+import { Shield, LogOut, Wallet, ChevronDown, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Navbar() {
@@ -10,6 +10,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showWalletMenu, setShowWalletMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -18,6 +19,18 @@ export default function Navbar() {
   };
 
   const isActive = (path) => location.pathname === path;
+
+  const navLinks = [
+    { path: '/dashboard', label: 'Dashboard' },
+    ...(user?.role === 'issuer' || user?.role === 'admin'
+      ? [{ path: '/issue', label: 'Issue' }]
+      : []),
+    { path: '/learner', label: 'My Certs' },
+    { path: '/verify', label: 'Verify' },
+    ...(user?.role === 'issuer' || user?.role === 'admin'
+      ? [{ path: '/revoke', label: 'Revoke' }]
+      : []),
+  ];
 
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
@@ -32,25 +45,23 @@ export default function Navbar() {
             >
               <Shield size={18} className="text-white" />
             </div>
-            <div>
+            <div className="hidden sm:block">
               <span className="font-bold text-xl text-indigo-600">Truvo</span>
               <div className="text-xs text-gray-400 -mt-1">Blockchain Credentials</div>
             </div>
           </Link>
 
-          {/* Nav links */}
-          <div className="flex items-center gap-1">
-            {[
-              { path: '/dashboard', label: 'Dashboard' },
-              ...(user?.role === 'issuer' || user?.role === 'admin'
-                ? [{ path: '/issue', label: 'Issue' }]
-                : []),
-              { path: '/learner', label: 'My Certs' },
-              { path: '/verify', label: 'Verify' },
-              ...(user?.role === 'issuer' || user?.role === 'admin'
-                ? [{ path: '/revoke', label: 'Revoke' }]
-                : []),
-            ].map(({ path, label }) => (
+          {/* Mobile menu toggle */}
+          <button
+            className="sm:hidden p-2 rounded-lg text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 transition"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+
+          {/* Nav links (desktop) */}
+          <div className="hidden sm:flex items-center gap-1">
+            {navLinks.map(({ path, label }) => (
               <Link
                 key={path}
                 to={path}
@@ -127,6 +138,28 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* Mobile nav menu */}
+      {mobileMenuOpen && (
+        <div className="sm:hidden bg-white border-t border-gray-200 shadow-md">
+          <div className="flex flex-col px-4 py-3 space-y-2">
+            {navLinks.map(({ path, label }) => (
+              <Link
+                key={path}
+                to={path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  isActive(path)
+                    ? 'text-indigo-600 bg-indigo-50 border border-indigo-200'
+                    : 'text-gray-500 hover:text-indigo-600 hover:bg-indigo-50'
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

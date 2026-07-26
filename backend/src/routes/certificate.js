@@ -264,18 +264,34 @@ router.post(
       });
 
       // STEP 6 — Notify n8n
+      // STEP 6 — Notify n8n
       try {
-        await axios.post(process.env.N8N_WEBHOOK_URL, {
-          event: "certificate_issued",
-          learnerName,
-          learnerEmail,
-          skillName,
-          tokenId,
-          ipfsUrl: getIPFSUrl(ipfsCid),
-          txHash,
-        });
+        await axios.post(
+          process.env.N8N_WEBHOOK_URL,
+          {
+            event: "certificate_issued",
+            learnerName,
+            learnerEmail,
+            skillName,
+            tokenId,
+            ipfsUrl: getIPFSUrl(ipfsCid),
+            txHash,
+          },
+          {
+            timeout: 5000,
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          },
+        );
+        console.log("n8n notified successfully!");
       } catch (e) {
-        console.log("n8n skipped:", e.message);
+        console.log(
+          "n8n skipped:",
+          e.response?.status,
+          e.response?.data || e.message,
+        );
       }
 
       return res.status(201).json({

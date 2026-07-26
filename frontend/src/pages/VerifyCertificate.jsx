@@ -71,7 +71,7 @@ export default function VerifyCertificate() {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4 relative">
-  <BlockchainBackground className="opacity-10" />
+      <BlockchainBackground className="opacity-10" />
 
       <div className="w-full max-w-lg relative z-10">
         {/* Header */}
@@ -113,14 +113,14 @@ export default function VerifyCertificate() {
               {loading ? "Checking..." : "Verify"}
             </button>
           </div>
-   <p className="text-xs text-gray-500 mt-2 text-center">
+          <p className="text-xs text-gray-500 mt-2 text-center">
             Data sourced directly from Polygon blockchain
           </p>
         </div>
 
         {/* Error */}
         {error && (
-         <div className="bg-red-50 rounded-2xl p-4 mb-4 border border-red-200 shadow">
+          <div className="bg-red-50 rounded-2xl p-4 mb-4 border border-red-200 shadow">
             <div className="flex items-center gap-2 text-red-400">
               <XCircle size={16} />
               <span className="text-sm">{error}</span>
@@ -131,16 +131,16 @@ export default function VerifyCertificate() {
         {/* Result */}
         {result && (
           <div
-            className={`glass-dark rounded-2xl p-6 border-2 ${
-              result.valid ? "border-green-500/40" : "border-red-500/40"
+            className={`bg-white rounded-2xl p-6 border-2 shadow-lg ${
+              result.valid ? "border-green-300" : "border-red-300"
             }`}
           >
             {/* Status badge */}
             <div
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-6 ${
                 result.valid
-                  ? "bg-green-500/20 text-green-300 border border-green-500/30"
-                  : "bg-red-500/20 text-red-300 border border-red-500/30"
+                  ? "bg-green-100 text-green-700 border border-green-300"
+                  : "bg-red-100 text-red-700 border border-red-300"
               }`}
               style={{
                 boxShadow: result.valid
@@ -195,12 +195,12 @@ export default function VerifyCertificate() {
               ].map(({ label, value, highlight, mono }) => (
                 <div
                   key={label}
-                 className="flex justify-between items-center py-2 border-b border-gray-200"
+                  className="flex justify-between items-center py-2 border-b border-gray-200"
                 >
-                 <span className="text-gray-500 text-xs">{label}</span>
+                  <span className="text-gray-500 text-xs">{label}</span>
                   <span
                     className={`text-xs font-medium ${
-                     highlight ? "text-indigo-600 font-bold" : "text-gray-800"
+                      highlight ? "text-indigo-600 font-bold" : "text-gray-800"
                     } ${mono ? "font-mono" : ""}`}
                   >
                     {value}
@@ -228,13 +228,13 @@ export default function VerifyCertificate() {
                 <button
                   onClick={handleDownloadVerify}
                   disabled={verifying}
-                  className="py-2.5 rounded-xl text-sm font-medium text-green-300 glass border border-green-500/20 hover:bg-green-500/10 transition disabled:opacity-50"
+                  className="py-2.5 rounded-xl text-sm font-medium text-green-700 bg-green-50 border border-green-300 hover:bg-green-100 transition disabled:opacity-50"
                 >
                   {verifying ? "🔄 Verifying..." : "🔍 Verify Hash"}
                 </button>
                 <button
                   onClick={copyLink}
-                  className="py-2.5 rounded-xl text-sm font-medium text-white/60 glass border border-white/10 hover:bg-white/10 transition flex items-center justify-center gap-2"
+                  className="py-2.5 rounded-xl text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 hover:bg-gray-200 transition flex items-center justify-center gap-2"
                 >
                   {copied ? (
                     <>
@@ -250,7 +250,7 @@ export default function VerifyCertificate() {
               </div>
             </div>
 
-           <p className="text-xs text-gray-500 text-center mt-4">
+           <p className="text-xs text-gray-600 text-center mt-4">
               🔗 Permanently recorded on Polygon blockchain — tamper-proof
               forever
             </p>
