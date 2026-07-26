@@ -48,16 +48,23 @@ const app = express();
 app.use(helmet());
 
 // ── CORS ────────────────────────────────────────────────
+import cors from "cors";
+
 app.use(
   cors({
     origin: [
-      process.env.FRONTEND_URL,
-      "http://localhost:5173",
-      "http://localhost:3000",
+      process.env.FRONTEND_URL, // production frontend
+      "http://localhost:5173", // local dev (Vite)
+      "http://localhost:3000", // local dev (CRA)
     ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   }),
 );
+
+// Explicitly handle OPTIONS requests
+app.options("*", cors());
 
 // ── Body parser ─────────────────────────────────────────
 app.use(express.json({ limit: "10mb" }));
