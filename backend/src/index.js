@@ -51,8 +51,9 @@ app.use(
   cors({
     origin: [
       process.env.FRONTEND_URL, // production frontend
-      "http://localhost:5173", // local dev (Vite)
-      "http://localhost:3000", // local dev (CRA)
+      "http://localhost:5173", // local dev
+      "http://localhost:3000", // local dev
+      /\.vercel\.app$/, // allow all Vercel preview URLs
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
