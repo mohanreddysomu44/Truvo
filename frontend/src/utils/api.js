@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://truvo-production.up.railway.app/api",
+  baseURL: "https://truvo.onrender.com/api",
 });
 
 // Automatically add JWT token to every request
