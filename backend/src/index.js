@@ -53,7 +53,7 @@ app.use(
       process.env.FRONTEND_URL, // production frontend
       "http://localhost:5173", // local dev
       "http://localhost:3000",
-      "https://truvo-theta.vercel.app"
+      "https://truvo-git-main-mohanreddysomu44s-projects.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
